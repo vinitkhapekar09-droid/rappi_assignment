@@ -1,11 +1,11 @@
 # Latest Run Summary
 
 - **Task:** Diagnose the Groq summary numeric-validation fallback, apply the smallest safe fix, run three consecutive live recommendations, rebuild, and push the targeted correction.
-- **Status:** Implemented and locally verified; three live recommendations completed, with one online success and two explicit fallbacks.
+- **Status:** Completed, committed, and pushed to the existing public `main` branch; three live recommendations completed, with one online success and two explicit fallbacks.
 - **Files changed:** `backend/app/agent/explanation.py` masks only the exact supplied alphanumeric SKU while scanning numeric claims; `backend/app/agent/llm/openai_compatible.py` tells the model not to repeat numeric identifiers and to avoid unsupported numeric prose; two agent test files cover the real SKU case, unsupported quantity, and prompt instruction. Integration/development records updated.
 - **Implementation decisions:** The reported SKU `SKU-1234` was extracted as unsupported number `1234`; the digits were not added to the allowed-number set. A separate unsupported quantity remains rejected. Fallbacks during final verification were not represented as online success.
 - **Verification:** Focused guard/provider tests: 24 passed, one LangGraph deprecation warning. Compose rebuild completed with existing `rappi-hostcheck` project and named volumes; health endpoints returned HTTP 200. Three sequential recommendations through port 5175: attempt 1 fallback, attempt 2 Groq online accepted (`api.groq.com`, `openai/gpt-oss-120b`), attempt 3 fallback. All returned deterministic 800-unit recommendations; fallback warnings were retained. `git diff --check` passed.
 - **Unresolved issues:** The two post-fix fallback attempts persisted numeric-validation warnings but not raw model prose, so their exact individual numeric tokens cannot be classified retrospectively. Browser visual inspection was not performed.
 - **Assignment impact:** Identifier text no longer triggers numeric rejection, while unsupported numeric claims still do. Deterministic purchasing, approval, execution, and validation logic is unchanged.
-- **Recommended next step:** Commit and push the targeted fix, then observe another live UI recommendation for its provider mode.
-- **Git status:** Targeted changes are local on `main` and not yet committed or pushed. No source-worktree changes were made.
+- **Recommended next step:** If another online result is required for a walkthrough, create a fresh case and confirm the UI reports online success before presenting it.
+- **Git status:** `main` is clean and pushed to the existing origin at commit `64e23fe`. No source-worktree changes were made.
