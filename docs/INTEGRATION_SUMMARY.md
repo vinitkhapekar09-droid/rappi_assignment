@@ -586,3 +586,25 @@ Submission layout moves supporting contracts, plan, history and evaluation artif
 `docs/`; code remains in `backend/`, dashboard in `frontend/`, and demo/evaluation script
 in `scripts/`. Root README now leads with purpose, quick start, Groq configuration, fallback,
 browser success/mismatch walkthroughs, architecture, actual test results and limitations.
+
+## Committed-checkout verification and main preparation
+
+Commit `8c5f27351ee6db22e20b4319abfeab26e24154fb` was checked out detached at
+`/tmp/rappi-submit-verify`. The isolated full suite returned 135 passed and 2 skipped
+because frontend dev dependencies were not initially available in that checkout. With its
+frontend `node_modules` linked to the already-installed lockfile dependencies, both
+`tests/test_frontend_contract.py` regressions passed; the aggregate committed-checkout
+backend result is therefore 137 passed, two existing dependency warnings. From the same
+checkout, `npm run typecheck`, `npm test` (36 passed), and `npm run build` passed.
+
+The existing `rappi-hostcheck` project was rebuilt from that committed checkout using the
+same project name and the external ignored `.env`. No model call was made during this
+startup check. Both port-8003 and port-5175 health endpoints returned HTTP 200; the
+PostgreSQL/mock-order volume creation times remained `2026-10-16T04:35:48Z`. The accepted
+Groq recommendation remained persisted and readable with `online_succeeded=true`, provider
+`api.groq.com`, model `openai/gpt-oss-120b`, 800 units / MXN 10,000 and no warnings.
+
+The existing origin `https://github.com/vinitkhapekar09-droid/rappi_assignment` was
+verified **public**. A pre-existing edit to `RUN_SUMMARY.md` in the `main` worktree was
+preserved in `stash@{0}` before integration; the worktree was clean afterward. The agent
+source worktree's uncommitted changes were not edited.

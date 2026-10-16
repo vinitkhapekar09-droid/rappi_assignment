@@ -443,3 +443,10 @@ Update this file during implementation with actual changes, commands, test outco
 - Focused tests: 22 passed. Full isolated backend suite: 137 passed, two dependency deprecation warnings (37.30s).
 - Rebuilt the host-network demo and verified healthy services with existing volumes retained. The final live recommendation through the port-5175 adapter succeeded online: provider `api.groq.com`, model `openai/gpt-oss-120b`, accepted output, 800 units / MXN 10,000. The earlier fallback is retained in the evaluation result for context.
 - Organized contracts, plans, histories, and evaluation records under `docs/`; updated references and replaced root README with concise setup/demo/evaluation/limitations instructions. No source worktree changes, credentials, database files, builds, or dependency directories were included.
+
+## 2026-10-16 — clean committed-checkout verification and main integration prep
+
+- Created integration commit `8c5f27351ee6db22e20b4319abfeab26e24154fb` after staging/auditing 137 paths. No `.env`, token-pattern matches, runtime databases, virtual environments, node_modules, builds, caches, or files larger than 2 MB were included.
+- Verified the commit in detached `/tmp/rappi-submit-verify`. Full isolated backend suite: 135 passed, 2 skipped because the temp checkout initially lacked frontend dev dependencies; with its frontend `node_modules` linked, both cross-language contract tests passed. Frontend typecheck passed, 36 tests passed, and production build passed.
+- Rebuilt the existing `rappi-hostcheck` stack from the committed checkout with the same Compose project name, verified backend/API and same-origin health HTTP 200, and confirmed the two existing volume creation timestamps were unchanged. Existing accepted case remained readable as Groq `online`, `online_succeeded=true`, 800 units / MXN 10,000, no warnings.
+- GitHub verified the existing origin repository is public. The pre-existing modified `RUN_SUMMARY.md` in the main worktree was preserved in stash `stash@{0}` so main could be clean before integration. Agent source worktree changes remain untouched.
