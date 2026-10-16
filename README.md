@@ -136,4 +136,14 @@ Latest verified checks: **137 backend/agent tests passed** with two dependency d
 - The dashboard does not restore a previous case after refresh. The app has no durable LangGraph checkpoint; PostgreSQL is the workflow source of truth.
 - `AGENT_OFFLINE=true` and an unavailable or rejected provider result produce fallback, never online-success status.
 
+## Future improvements
+
+These are not implemented in this demo:
+
+- Authenticate buyers and enforce role-based approval permissions.
+- Check evidence freshness and resume an existing case after a dashboard refresh.
+- Scope mock fault controls to individual cases instead of the process.
+- Add broader supplier-shortfall and forecast-change scenarios.
+- Expand LLM evaluation across constrained cases and provider failures.
+
 Supporting planning, API, schema, integration, and development-history documents are in [`docs/`](docs/).
