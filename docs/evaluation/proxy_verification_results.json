@@ -1,0 +1,176 @@
+{
+  "before_fix": [
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:5175/api/v1/cases",
+      "request": {
+        "sku": "SKU-1234",
+        "product_name": "Agua Embotellada 1L",
+        "currency": "MXN",
+        "volume_unit": "liter",
+        "initial_recommended_quantity": 800,
+        "planning_horizon_start": "2026-10-16"
+      },
+      "status": 201,
+      "response": {
+        "case_id": "ed193187-6098-4fe0-af87-df9efd506753"
+      }
+    },
+    {
+      "method": "PUT",
+      "url": "http://127.0.0.1:5175/api/v1/cases/ed193187-6098-4fe0-af87-df9efd506753/evidence",
+      "request": {
+        "usable_inventory": 200,
+        "forecast_demand": 1000,
+        "safety_stock": 100,
+        "budget_amount": "15000.00",
+        "storage_capacity_units": "1000.0",
+        "storage_required_per_unit": "1.0",
+        "evidence_as_of": "2026-10-15T11:00:00Z",
+        "incoming_orders": [
+          {
+            "incoming_order_id": "77777777-7777-7777-7777-777777777777",
+            "external_ref": "PO-IN-1",
+            "quantity": 100,
+            "expected_arrival_date": "2026-10-18",
+            "status": "confirmed"
+          }
+        ],
+        "supplier_offers": [
+          {
+            "supplier_offer_id": "22222222-2222-2222-2222-222222222222",
+            "supplier_name": "Distribuidora Norte",
+            "unit_price": "12.50",
+            "currency": "MXN",
+            "moq": 500,
+            "lead_time_days": 3,
+            "is_available": true
+          }
+        ]
+      },
+      "status": 422,
+      "response": {
+        "error": {
+          "code": "validation_error",
+          "message": "Request validation failed.",
+          "details": {
+            "errors": [
+              {
+                "type": "extra_forbidden",
+                "loc": [
+                  "body",
+                  "incoming_orders",
+                  0,
+                  "incoming_order_id"
+                ],
+                "msg": "Extra inputs are not permitted",
+                "input": "77777777-7777-7777-7777-777777777777"
+              },
+              {
+                "type": "extra_forbidden",
+                "loc": [
+                  "body",
+                  "supplier_offers",
+                  0,
+                  "supplier_offer_id"
+                ],
+                "msg": "Extra inputs are not permitted",
+                "input": "22222222-2222-2222-2222-222222222222"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:5175/api/v1/cases/ed193187-6098-4fe0-af87-df9efd506753/recommendations",
+      "request": {},
+      "status": 409,
+      "response": {
+        "error": {
+          "code": "missing_evidence",
+          "message": "No case evidence has been submitted; nothing to investigate.",
+          "details": {
+            "case_id": "ed193187-6098-4fe0-af87-df9efd506753"
+          }
+        }
+      }
+    }
+  ],
+  "after_fix": [
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:5175/api/v1/cases",
+      "status": 201,
+      "request": {
+        "sku": "SKU-1234",
+        "product_name": "Agua Embotellada 1L",
+        "currency": "MXN",
+        "volume_unit": "liter",
+        "initial_recommended_quantity": 800,
+        "planning_horizon_start": "2026-10-16"
+      },
+      "response": {
+        "case_id": "af1efa42-8122-495d-8e83-69cb0c674ed8",
+        "status": "draft"
+      }
+    },
+    {
+      "method": "PUT",
+      "url": "http://127.0.0.1:5175/api/v1/cases/af1efa42-8122-495d-8e83-69cb0c674ed8/evidence",
+      "status": 200,
+      "request": {
+        "usable_inventory": 200,
+        "forecast_demand": 1000,
+        "safety_stock": 100,
+        "budget_amount": "15000.00",
+        "storage_capacity_units": "1000.0",
+        "storage_required_per_unit": "1.0",
+        "evidence_as_of": "2026-10-15T11:00:00Z",
+        "incoming_orders": [
+          {
+            "external_ref": "PO-IN-1",
+            "quantity": 100,
+            "expected_arrival_date": "2026-10-18",
+            "status": "confirmed"
+          }
+        ],
+        "supplier_offers": [
+          {
+            "supplier_name": "Distribuidora Norte",
+            "unit_price": "12.50",
+            "currency": "MXN",
+            "moq": 500,
+            "lead_time_days": 3,
+            "is_available": true
+          }
+        ]
+      },
+      "response": {}
+    },
+    {
+      "method": "GET",
+      "url": "http://127.0.0.1:5175/api/v1/cases/af1efa42-8122-495d-8e83-69cb0c674ed8",
+      "status": 200,
+      "request": null,
+      "response": {
+        "case_id": "af1efa42-8122-495d-8e83-69cb0c674ed8",
+        "evidence_present": true,
+        "status": "draft"
+      }
+    },
+    {
+      "method": "POST",
+      "url": "http://127.0.0.1:5175/api/v1/cases/af1efa42-8122-495d-8e83-69cb0c674ed8/recommendations",
+      "status": 201,
+      "request": {},
+      "response": {
+        "case_id": "af1efa42-8122-495d-8e83-69cb0c674ed8",
+        "recommended_quantity": 800,
+        "evidence_present": true,
+        "status": "ready"
+      }
+    }
+  ]
+}

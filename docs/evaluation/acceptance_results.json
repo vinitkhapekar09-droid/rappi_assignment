@@ -1,0 +1,70 @@
+{
+  "revised_quantity": {
+    "case_id": "0ebd5cbd-a7a5-4632-9644-4a99221191d3",
+    "initial_suggestion": 800,
+    "required_quantity": 1000,
+    "version": 2,
+    "before_fresh_approval": "invalid_state",
+    "wrong_quantity_approval": "approval_mismatch",
+    "old_approval_execution": "stale_approval",
+    "fresh_approved_cost": "12500.00",
+    "validation": "passed"
+  },
+  "budget": {
+    "case_id": "5198e970-db59-480f-9e5b-bef4e04f3292",
+    "decision": "accept",
+    "case_status": "awaiting_approval",
+    "check": {
+      "constraint_type": "budget",
+      "status": "fail",
+      "message": "Total cost 10000.0000 exceeds budget 5000.0000.",
+      "evaluated_value": "10000.00",
+      "limit_value": "5000.00",
+      "unit": "MXN",
+      "details": {
+        "quantity_evaluated": 800
+      }
+    },
+    "rationale": "Decision: accept. Baseline requirement is 800 units. Recommended quantity is 800 units. Total cost is 10000.0000 MXN. Supplier MOQ is 500 units. Supplier lead time is 3 days. supplier_availability check: pass - Supplier 'Distribuidora Norte' is available. lead_time check: pass - Lead time 3 days is within the 7-day horizon. moq check: pass - MOQ 500 is satisfied by the requirement 800. budget check: fail - Total cost 10000.0000 exceeds budget 5000.0000. storage check: pass - Required storage 800.0000 is within capacity 1000.0000. data_quality check: pass - All decision-critical evidence present. Purchase blocked: resolve failed or unknown constraints before execution. Purchase blocked: resolve the failed or unknown constraints before approval or execution. The supplier availability check is pass. The lead time check is pass. The moq check is pass. The budget check is fail. The storage check is pass. The data quality check is pass.",
+    "execution": "invalid_state",
+    "quantity": 800
+  },
+  "storage": {
+    "case_id": "a3de2456-7dff-40d4-b4ce-74e283eae2a9",
+    "decision": "accept",
+    "case_status": "awaiting_approval",
+    "check": {
+      "constraint_type": "storage",
+      "status": "fail",
+      "message": "Required storage 800.0000 exceeds capacity 500.0000.",
+      "evaluated_value": "800.0",
+      "limit_value": "500.0",
+      "unit": "liter",
+      "details": {
+        "quantity_evaluated": 800
+      }
+    },
+    "rationale": "Decision: accept. Baseline requirement is 800 units. Recommended quantity is 800 units. Total cost is 10000.0000 MXN. Supplier MOQ is 500 units. Supplier lead time is 3 days. supplier_availability check: pass - Supplier 'Distribuidora Norte' is available. lead_time check: pass - Lead time 3 days is within the 7-day horizon. moq check: pass - MOQ 500 is satisfied by the requirement 800. budget check: pass - Total cost 10000.0000 is within budget 15000.0000. storage check: fail - Required storage 800.0000 exceeds capacity 500.0000. data_quality check: pass - All decision-critical evidence present. Purchase blocked: resolve failed or unknown constraints before execution. Purchase blocked: resolve the failed or unknown constraints before approval or execution. The supplier availability check is pass. The lead time check is pass. The moq check is pass. The budget check is pass. The storage check is fail. The data quality check is pass.",
+    "execution": "invalid_state",
+    "quantity": 800
+  },
+  "moq": {
+    "case_id": "77f30dde-7346-4680-b10f-b2bf4af336c8",
+    "decision": "investigate",
+    "case_status": "needs_investigation",
+    "check": {
+      "constraint_type": "moq",
+      "status": "fail",
+      "message": "MOQ 1000 exceeds the requirement 800.",
+      "evaluated_value": 1000,
+      "limit_value": 800,
+      "unit": "units",
+      "details": {
+        "quantity_evaluated": 1000
+      }
+    },
+    "rationale": "Decision: investigate. Baseline requirement is 800 units. Recommended quantity is 800 units. Total cost is 10000.0000 MXN. Supplier MOQ is 1000 units. Supplier lead time is 3 days. supplier_availability check: pass - Supplier 'Distribuidora Norte' is available. lead_time check: pass - Lead time 3 days is within the 7-day horizon. moq check: fail - MOQ 1000 exceeds the requirement 800. budget check: pass - Total cost 12500.0000 is within budget 15000.0000. storage check: pass - Required storage 1000.0000 is within capacity 1000.0000. data_quality check: pass - All decision-critical evidence present. Purchase blocked: resolve failed or unknown constraints before execution. Purchase blocked: resolve the failed or unknown constraints before approval or execution. The supplier availability check is pass. The lead time check is pass. The moq check is fail. The budget check is pass. The storage check is pass. The data quality check is pass. Resolve the recorded missing or unresolved information before committing to a purchase.",
+    "execution": "not_attempted_approval_blocked",
+    "quantity": 800
+  }
+}

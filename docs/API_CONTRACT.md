@@ -1,6 +1,6 @@
 # API Contract — AI Purchasing Agent
 
-Status: **design draft for review** (no implementation). This document freezes the REST
+Status: **implemented in the integration workspace**. This document freezes the REST
 contract for the first end-to-end purchasing workflow so backend, agent, and frontend
 workers can build against one interface.
 

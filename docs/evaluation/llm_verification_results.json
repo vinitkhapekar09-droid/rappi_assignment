@@ -1,0 +1,52 @@
+{
+  "latest": {
+    "verification": "final live recommendation request through the port-5175 same-origin proxy",
+    "endpoint": "POST /api/v1/cases/{case_id}/recommendations",
+    "case_id": "292094c7-1b36-43fb-bb73-3a8d64d95643",
+    "recommendation_version": 1,
+    "decision": "accept",
+    "quantity": 800,
+    "total_cost": "10000.00",
+    "generated_by": "agent",
+    "inference": {
+      "mode": "online",
+      "online_succeeded": true,
+      "provider": "api.groq.com",
+      "model": "openai/gpt-oss-120b",
+      "requested_provider": "api.groq.com",
+      "requested_model": "openai/gpt-oss-120b",
+      "fallback_reason": null
+    },
+    "structured_interpretation_present": true,
+    "real_online_request_attempted": true,
+    "online_inference_succeeded": true,
+    "browser_visual_verification": "not performed; recommendation was verified through the actual frontend HTTP adapter/proxy"
+  },
+  "previous_fallback_verification": {
+    "verification": "one live recommendation request through the port-5175 same-origin proxy",
+    "endpoint": "POST /api/v1/cases/{case_id}/recommendations",
+    "case_id": "282e322f-2397-4000-a783-9797fe6d876f",
+    "recommendation_version": 1,
+    "decision": "accept",
+    "quantity": 800,
+    "total_cost": "10000.00",
+    "generated_by": "offline",
+    "inference": {
+      "mode": "provider_fallback",
+      "online_succeeded": false,
+      "provider": "offline",
+      "model": null,
+      "requested_provider": "api.groq.com",
+      "requested_model": "openai/gpt-oss-120b",
+      "fallback_reason": "Model output failed validation; deterministic fallback used."
+    },
+    "validation_warnings": [
+      "Dropped model sentence(s) with unsupported numbers in summary.",
+      "Dropped model sentence(s) with unsupported numbers in trade_offs."
+    ],
+    "real_online_request_attempted": true,
+    "online_inference_succeeded": false,
+    "volumes_preserved": true,
+    "browser_visual_verification": "not performed; request verified through actual frontend HTTP adapter/proxy"
+  }
+}

@@ -1,0 +1,24 @@
+# Linux/Codespaces fallback when Docker bridge traffic is blocked.
+# Requires Docker Compose supporting !reset (2.24.4+).
+# Use a separate project to preserve any existing standard-stack containers/data.
+services:
+  db:
+    network_mode: host
+    ports: !reset []
+    command: ["postgres", "-p", "55434", "-c", "listen_addresses=127.0.0.1"]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -h 127.0.0.1 -p 55434 -U rappi -d rappi"]
+  backend:
+    network_mode: host
+    ports: !reset []
+    environment:
+      RAPPI_DATABASE_URL: postgresql+psycopg://rappi:rappi@127.0.0.1:55434/rappi?connect_timeout=10
+    command: ["sh", "-c", "alembic upgrade head && exec uvicorn app.main:app --host 127.0.0.1 --port 8003"]
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8003/api/v1/health')"]
+  frontend:
+    network_mode: host
+    ports: !reset []
+    environment:
+      API_UPSTREAM: 127.0.0.1:8003
+      NGINX_PORT: "127.0.0.1:5175"

@@ -1,6 +1,6 @@
 # Database Schema — AI Purchasing Agent
 
-Status: **design draft for review** (no implementation, no migrations). Minimum
+Status: **implemented with Alembic migrations in the integration workspace**. Minimum
 PostgreSQL schema for the single-SKU, seven-day purchasing workflow.
 
 Companion document: `API_CONTRACT.md`. The two must stay consistent.
@@ -154,12 +154,18 @@ Alternative supplier quotes for the case's SKU.
 | `moq` | `INTEGER` | NOT NULL, DEFAULT 0, CHECK `>= 0` |
 | `lead_time_days` | `INTEGER` | NOT NULL, CHECK `>= 0` |
 | `is_available` | `BOOLEAN` | NOT NULL, DEFAULT true |
+| `is_current` | `BOOLEAN` | NOT NULL, DEFAULT true; archived offers remain referenced by historical versions |
 | `created_at` | `TIMESTAMPTZ` | NOT NULL, DEFAULT `now()` |
 
-Constraints: `UNIQUE (case_id, supplier_name)` and `UNIQUE (id, case_id)` (the latter is the
+Constraints: partial unique index `(case_id, supplier_name) WHERE is_current = true`
+and `UNIQUE (id, case_id)` (the latter is the
 alt key that backs the composite foreign keys from `recommendation_versions`, `approvals`,
 and `purchase_orders`; see §3.1).
 Indexes: `idx_supplier_case (case_id)`.
+Evidence replacement archives existing offers (`is_current = false`) and inserts new
+current offers. Historical recommendation/approval supplier references and purchase
+terms remain unchanged. Migration `8b28a4b1c204` adds this lifecycle field/index; downgrading
+to the old uniqueness rule refuses conflicting historical rows rather than deleting them.
 Note: `currency` must equal the case currency; enforced in domain validation (a cross-table
 CHECK would need a trigger and is not worth it in the monolith).
 

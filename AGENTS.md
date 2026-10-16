@@ -4,7 +4,7 @@
 
 Implement the Rappi AI Purchasing Agent assignment as a reliable, explainable, full-stack workflow—not a chatbot-only demonstration.
 
-Before starting, read `PROJECT_PLAN.md`, `DEVELOPMENT_LOG.md`, and the original assignment requirements. Treat the assignment as the source of truth for scope and submission requirements.
+Before starting, read `docs/PROJECT_PLAN.md`, `docs/DEVELOPMENT_LOG.md`, and the original assignment requirements. Treat the assignment as the source of truth for scope and submission requirements.
 
 Prioritize a working end-to-end flow, safe business rules, independent validation, reproducible tests, and interview-ready explanations over unnecessary features.
 
@@ -19,7 +19,7 @@ Prioritize a working end-to-end flow, safe business rules, independent validatio
 - Never hardcode secrets or commit credentials. Maintain `.env.example` without real secrets.
 - Do not commit, push, merge, deploy, or change remote settings without explicit user permission.
 - Never claim a test, build, or manual check passed unless it was actually run.
-- Record design decisions, assumptions, limitations, and unresolved issues in `DEVELOPMENT_LOG.md`.
+- Record design decisions, assumptions, limitations, and unresolved issues in `docs/DEVELOPMENT_LOG.md`.
 
 ## 3. Non-Negotiable Business Rules
 
@@ -108,18 +108,18 @@ When finishing a task, report:
 4. Known limitations and unresolved issues.
 5. Any integration work still required.
 
-Update `DEVELOPMENT_LOG.md` with factual progress. Keep the README, architecture diagram, `.env.example`, evaluation results, and demo instructions aligned with the actual implementation.
+Update `docs/DEVELOPMENT_LOG.md` with factual progress. Keep the README, architecture diagram, `.env.example`, evaluation results, and demo instructions aligned with the actual implementation.
 
 ## 10. Run Summary Workflow
 
 Maintain two distinct records:
 
-- `DEVELOPMENT_LOG.md` — the complete, append-only historical timeline. Never move,
+- `docs/DEVELOPMENT_LOG.md` — the complete, append-only historical timeline. Never move,
   delete, or duplicate its history elsewhere.
-- `RUN_SUMMARY.md` — the **latest** OpenCode task/run summary only, shared with ChatGPT for
+- `docs/RUN_SUMMARY.md` — the **latest** OpenCode task/run summary only, shared with ChatGPT for
   review.
 
-After every task or meaningful run, **overwrite** `RUN_SUMMARY.md` with only the latest
+After every task or meaningful run, **overwrite** `docs/RUN_SUMMARY.md` with only the latest
 run's report (do not append). Use this format:
 
 ```
@@ -138,10 +138,10 @@ run's report (do not append). Use this format:
 
 Rules:
 
-1. Overwrite `RUN_SUMMARY.md` after every run; never append.
+1. Overwrite `docs/RUN_SUMMARY.md` after every run; never append.
 2. Keep it concise, preferably under 60 lines.
 3. Report actual outcomes; never invent successful tests or completed work.
 4. Update the summary even if the task fails or makes no changes.
 5. Never include secrets, API keys, or environment variable values.
 6. Do not commit, push, or deploy unless explicitly authorized.
-7. At the end of each task, mention that `RUN_SUMMARY.md` was updated.
+7. At the end of each task, mention that `docs/RUN_SUMMARY.md` was updated.

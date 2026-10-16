@@ -1,0 +1,37 @@
+{
+  "happy_and_duplicate": {
+    "case_id": "6a0a0e7d-cfad-4dbf-ba95-97d785751086",
+    "key": "a82ae714-1e0a-4513-91e1-c037bec848fc",
+    "purchase_order_id": "4f3014b0-86bf-4e30-8f84-64a60f75e702",
+    "validation": "passed",
+    "quantity": 800,
+    "total_cost": "10000.00",
+    "duplicate_same_order": true
+  },
+  "persisted_mismatch": {
+    "case_id": "edf9a3fd-bf97-4f4b-adcd-fc9c61f7fc88",
+    "status": "validation_failed",
+    "mismatches": [
+      {
+        "field": "quantity",
+        "approved_value": 800,
+        "persisted_value": 500
+      },
+      {
+        "field": "total_cost",
+        "approved_value": "10000.00",
+        "persisted_value": "6250.00"
+      }
+    ],
+    "repurchase_blocked": "invalid_state"
+  },
+  "approval_guards": {
+    "case_id": "e8131b1d-c23e-4d77-a629-c4180d4e77fd",
+    "missing": "invalid_state",
+    "stale": "stale_approval"
+  },
+  "missing_evidence": {
+    "case_id": "20974703-5a80-4fc8-80f3-eda879b3a2d3",
+    "decision": "investigate"
+  }
+}

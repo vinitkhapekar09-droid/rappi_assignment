@@ -158,7 +158,7 @@ The frontend should depend only on the published API contract. Adjust paths if i
 
 ## 9. Implementation Sequence
 
-1. Finalize this plan, `DEVELOPMENT_LOG.md`, and `AGENTS.md`.
+1. Finalize this plan, `DEVELOPMENT_LOG.md`, and the root `AGENTS.md`.
 2. Freeze domain schemas, API contracts, state transitions, and file ownership.
 3. Set up Python 3.12, frontend dependencies, and PostgreSQL via Docker Compose.
 4. Implement deterministic domain rules and unit tests.
