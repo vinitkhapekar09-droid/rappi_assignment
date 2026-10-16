@@ -66,6 +66,7 @@ def test_online_request_includes_actual_evidence_and_constraints():
     assert 'do not round, derive, use percentages, or add thousands separators' in call['json']['messages'][0]['content']
     prompt = call['json']['messages'][1]['content']
     facts = json.loads(prompt[prompt.index('{'):])
+    assert 'Treat SKU and other alphanumeric codes as identifiers' in call['json']['messages'][0]['content']
     assert facts['case_evidence']['usable_inventory'] == 200
     assert facts['case_evidence']['forecast_demand'] == 1000
     assert facts['case_evidence']['incoming_orders'][0]['status'] == 'confirmed'

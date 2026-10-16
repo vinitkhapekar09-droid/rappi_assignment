@@ -609,6 +609,25 @@ public origin. Final `main` and `origin/main` both resolved to the final documen
 the main worktree was clean. No force-push was used. The pre-existing main summary edit remains
 preserved in `stash@{0}`.
 
+## 2026-10-16 — SKU numeric-guard false positive
+
+The reported live case used SKU `SKU-1234`. A private Groq response inspection with the same
+case evidence confirmed the summary repeated that exact identifier; numeric extraction treated
+`1234` as an unsupported quantity. The validator now masks only the exact alphanumeric SKU token
+before scanning each explanation sentence. It does not add the SKU's digits to the numeric
+allow-list, and a separate unsupported `1234 units` statement remains rejected. The system
+prompt also directs the model not to repeat code-like identifiers and to avoid unsupported
+numeric prose.
+
+The guard/provider tests passed: 24 passed, one LangGraph deprecation warning. The existing
+`rappi-hostcheck` stack was rebuilt without volume deletion; API/proxy health returned HTTP 200.
+Three sequential fresh recommendations through port 5175 produced one accepted online response
+(`api.groq.com`, `openai/gpt-oss-120b`) and two explicit fallbacks. Both fallbacks retained
+numeric-validation warnings and reported `online_succeeded=false`; all three deterministic
+recommendations were 800 units. The response prose is not persisted, so the exact numbers in
+those two final fallback responses cannot be classified retrospectively. The final two
+fallbacks were not relabeled as online success.
+
 The existing origin `https://github.com/vinitkhapekar09-droid/rappi_assignment` was
 verified **public**. A pre-existing edit to `RUN_SUMMARY.md` in the `main` worktree was
 preserved in `stash@{0}` before integration; the worktree was clean afterward. The agent

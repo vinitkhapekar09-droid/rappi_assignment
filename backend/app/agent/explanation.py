@@ -148,21 +148,29 @@ def validate_and_sanitize(
 
     allowed = allowed_numbers(context)
 
-    summary, removed = _sanitize_text(explanation.summary, allowed)
+    # Product identifiers may contain digits (for example, SKU-1234). Mask
+    # only the exact identifier supplied by the case before numeric checking;
+    # a separate numeric claim remains subject to the normal allow-list.
+    identifiers = {context.case.sku}
+    summary, removed = _sanitize_text(explanation.summary, allowed, identifiers)
     if removed:
         warnings.append("Dropped model sentence(s) with unsupported numbers in summary.")
     if not summary:
         summary = _fallback_summary(context)
 
-    key_evidence, removed_ke = _sanitize_list(explanation.key_evidence, allowed)
+    key_evidence, removed_ke = _sanitize_list(
+        explanation.key_evidence, allowed, identifiers
+    )
     if removed_ke:
         warnings.append("Dropped model sentence(s) with unsupported numbers in key_evidence.")
 
-    trade_offs, removed_to = _sanitize_list(explanation.trade_offs, allowed)
+    trade_offs, removed_to = _sanitize_list(
+        explanation.trade_offs, allowed, identifiers
+    )
     if removed_to:
         warnings.append("Dropped model sentence(s) with unsupported numbers in trade_offs.")
 
-    caveats, removed_ca = _sanitize_list(explanation.caveats, allowed)
+    caveats, removed_ca = _sanitize_list(explanation.caveats, allowed, identifiers)
     if removed_ca:
         warnings.append("Dropped model sentence(s) with unsupported numbers in caveats.")
 
@@ -228,14 +236,16 @@ def _fallback_summary(context: ExplanationContext) -> str:
     return _FALLBACK_SUMMARY[context.investigation.decision]
 
 
-def _sanitize_text(text: str, allowed: set[Decimal]) -> tuple[str, bool]:
+def _sanitize_text(
+    text: str, allowed: set[Decimal], identifiers: set[str] | None = None
+) -> tuple[str, bool]:
     text = (text or "").strip()
     if not text:
         return "", False
     kept: list[str] = []
     removed = False
     for sentence in _SENTENCE_SPLIT_RE.split(text):
-        if _numbers_are_allowed(sentence, allowed):
+        if _numbers_are_allowed(sentence, allowed, identifiers or set()):
             kept.append(sentence.strip())
         else:
             removed = True
@@ -243,12 +253,12 @@ def _sanitize_text(text: str, allowed: set[Decimal]) -> tuple[str, bool]:
 
 
 def _sanitize_list(
-    items: Iterable[str], allowed: set[Decimal]
+    items: Iterable[str], allowed: set[Decimal], identifiers: set[str] | None = None
 ) -> tuple[list[str], bool]:
     result: list[str] = []
     removed_any = False
     for item in items:
-        text, removed = _sanitize_text(item, allowed)
+        text, removed = _sanitize_text(item, allowed, identifiers)
         if text:
             result.append(text)
         if removed:
@@ -256,5 +266,12 @@ def _sanitize_list(
     return result, removed_any
 
 
-def _numbers_are_allowed(text: str, allowed: set[Decimal]) -> bool:
+def _numbers_are_allowed(
+    text: str, allowed: set[Decimal], identifiers: set[str] | None = None
+) -> bool:
+    for identifier in identifiers or ():
+        if identifier and any(character.isalpha() for character in identifier):
+            text = re.sub(
+                rf"(?<!\w){re.escape(identifier)}(?!\w)", " ", text
+            )
     return all(value in allowed for value in extract_numbers(text))

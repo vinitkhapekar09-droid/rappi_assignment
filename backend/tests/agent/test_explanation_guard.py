@@ -114,6 +114,34 @@ def test_grouped_unsupported_thousands_are_still_rejected() -> None:
     assert explanation.trade_offs == ["Ordering 1,000 units would add unnecessary stock."]
 
 
+def test_sku_digits_are_not_mistaken_for_numeric_claims() -> None:
+    explanation, warnings = validate_and_sanitize(
+        RecommendationExplanation(
+            summary="SKU-1234 is supported by the available evidence.",
+            key_evidence=["The SKU-1234 forecast supports 1000 units."],
+        ),
+        _context(),
+    )
+
+    assert warnings == []
+    assert explanation.summary == "SKU-1234 is supported by the available evidence."
+    assert explanation.key_evidence == [
+        "The SKU-1234 forecast supports 1000 units."
+    ]
+
+
+def test_masking_sku_does_not_allow_same_digits_as_unsupported_quantity() -> None:
+    explanation, warnings = validate_and_sanitize(
+        RecommendationExplanation(
+            summary="SKU-1234 requires 1234 units immediately."
+        ),
+        _context(),
+    )
+
+    assert "1234" not in explanation.summary
+    assert any("unsupported numbers in summary" in warning for warning in warnings)
+
+
 def test_coerces_json_string_output() -> None:
     raw = '{"summary": "Requirement confirmed.", "confidence": "high"}'
     explanation, warnings = validate_and_sanitize(raw, _context())
