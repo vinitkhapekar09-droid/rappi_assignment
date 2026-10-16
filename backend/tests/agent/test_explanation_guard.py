@@ -142,6 +142,19 @@ def test_masking_sku_does_not_allow_same_digits_as_unsupported_quantity() -> Non
     assert any("unsupported numbers in summary" in warning for warning in warnings)
 
 
+def test_derived_budget_remainder_is_rejected() -> None:
+    explanation, warnings = validate_and_sanitize(
+        RecommendationExplanation(
+            summary="The recommendation is supported by forecast_demand.",
+            trade_offs=["budget_amount leaves 5000.0000 MXN unspent."],
+        ),
+        _context(),
+    )
+
+    assert warnings == ["Dropped model sentence(s) with unsupported numbers in trade_offs."]
+    assert explanation.trade_offs == []
+
+
 def test_coerces_json_string_output() -> None:
     raw = '{"summary": "Requirement confirmed.", "confidence": "high"}'
     explanation, warnings = validate_and_sanitize(raw, _context())

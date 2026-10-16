@@ -63,7 +63,8 @@ def test_online_request_includes_actual_evidence_and_constraints():
     assert call['url'] == 'https://provider.example/v1/chat/completions'
     assert call['timeout'] == 2
     assert call['json']['response_format'] == {'type': 'json_object'}
-    assert 'do not round, derive, use percentages, or add thousands separators' in call['json']['messages'][0]['content']
+    assert 'All explanation fields must be qualitative and contain no digits or numeric claims' in call['json']['messages'][0]['content']
+    assert 'Refer to evidence by field name' in call['json']['messages'][0]['content']
     prompt = call['json']['messages'][1]['content']
     facts = json.loads(prompt[prompt.index('{'):])
     assert 'Treat SKU and other alphanumeric codes as identifiers' in call['json']['messages'][0]['content']

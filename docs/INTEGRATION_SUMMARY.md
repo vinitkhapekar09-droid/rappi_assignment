@@ -632,3 +632,20 @@ The existing origin `https://github.com/vinitkhapekar09-droid/rappi_assignment` 
 verified **public**. A pre-existing edit to `RUN_SUMMARY.md` in the `main` worktree was
 preserved in `stash@{0}` before integration; the worktree was clean afterward. The agent
 source worktree's uncommitted changes were not edited.
+
+## 2026-10-16 — qualitative explanation prompt for derived numeric claims
+
+Temporary local capture of rejected explanations identified the offending numeric token
+`5000.0000` in trade-off context describing unspent budget / remaining margin. This is a
+computed budget remainder rather than a supplied fact, so rejection was correct. The
+capture file was mode 0600 in the local backend container, then removed; credentials were
+not captured. The Groq prompt now requires qualitative explanation fields with no digits or
+numeric claims and asks the model to reference evidence by field name. Deterministic code
+continues to show numeric facts independently, and the numeric guard is unchanged.
+
+Targeted guard/provider tests passed (25 passed, one deprecation warning). The normal
+`rappi-hostcheck` Compose stack was rebuilt with the same project and no volume operations;
+backend and port-5175 proxy health returned HTTP 200. Three sequential live recommendations
+through the proxy all reported accepted online inference from `api.groq.com`, model
+`openai/gpt-oss-120b`, quantity 800, and no validation warnings. The diagnostic override
+and capture file were removed before these final requests.
